@@ -27,37 +27,37 @@ export default function App() {
     e.preventDefault();
     setError({ error: false, message: "" });
     setLoading(true);
-
+  
     try {
       if (!city.trim()) throw { message: "El campo ciudad es obligatorio" };
-
+  
       const res = await fetch(API_WEATHER + city);
       const data = await res.json();
-
+  
       if (data.error) {
         throw { message: data.error.message };
       }
-
-      console.log(data);
-
-      setWeather({
+  
+      const weatherData = {
         city: data.location.name,
         country: data.location.country,
         temperature: data.current.temp_c,
         condition: data.current.condition.code,
         conditionText: data.current.condition.text,
         icon: data.current.condition.icon,
-      });
-      const clima=setWeather
-      const backend = await fetch('http://localhost:5000/api/search', {
+      };
+  
+      setWeather(weatherData);
+  
+      const backendRes = await fetch('http://localhost:5000/api/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(clima),
+        body: JSON.stringify(weatherData),
       });
-
-      if (!backend.ok) {
+  
+      if (!backendRes.ok) {
         throw { message: 'Error al guardar la búsqueda en la base de datos' };
       }
     } catch (error) {
@@ -67,7 +67,7 @@ export default function App() {
       setLoading(false);
     }
   };
-
+  
   return (
     <Container
       maxWidth="xs"
