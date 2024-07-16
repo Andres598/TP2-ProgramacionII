@@ -9,11 +9,13 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(cors());
 
-const MONGODB_URI = 'mongodb+srv://LonginusS:horusitomigatito@cluster0.qkbf72y.mongodb.net/weather?retryWrites=true&w=majority';
+//conexión del server con mongoDB
+const MONGODB_URI = 'aquí va la URI que conecta la app a tu base de datos';
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Atlas connected to database "weather"'))
   .catch(err => console.log(err));
 
+//crea el objeto que enviará a la base de datos, en este caso el objeto es una busqueda en la app de clima
 const searchSchema = new mongoose.Schema({
   city: String,
   country: String,
@@ -25,6 +27,7 @@ const searchSchema = new mongoose.Schema({
 
 const Search = mongoose.model('Search', searchSchema);
 
+//envía el cuerpo a la base de datos
 app.post('/api/search', async (req, res) => {
   const { city, country, temperature, condition, conditionText, icon } = req.body;
   const search = new Search({ city, country, temperature, condition, conditionText, icon });
