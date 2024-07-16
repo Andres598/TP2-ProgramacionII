@@ -2,6 +2,7 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
+//variable para traer los datos de la API de clima con el fetch
 const API_WEATHER = `http://api.weatherapi.com/v1/current.json?key=${
   import.meta.env.VITE_API_KEY
 }&lang=es&q=`;
@@ -48,7 +49,8 @@ export default function App() {
       };
   
       setWeather(weatherData);
-  
+
+      //esta funcion conecta al puerto donde está el servidor y hace el metodo post para guardar la búsqueda en la base de datos
       const backendRes = await fetch('http://localhost:5000/api/search', {
         method: 'POST',
         headers: {
